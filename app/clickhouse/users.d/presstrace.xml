@@ -1,0 +1,14 @@
+<!-- Query limits for the default profile, sized for a 2 GB VPS (ClickHouse container limit 1200m). -->
+<clickhouse>
+    <profiles>
+        <default>
+            <max_threads>2</max_threads>
+            <max_memory_usage>400000000</max_memory_usage>
+            <max_bytes_before_external_group_by>200000000</max_bytes_before_external_group_by>
+            <max_bytes_before_external_sort>200000000</max_bytes_before_external_sort>
+            <max_block_size>8192</max_block_size>
+            <queue_max_wait_ms>2000</queue_max_wait_ms>
+            <max_execution_time>60</max_execution_time>
+        </default>
+    </profiles>
+</clickhouse>

@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Color tokens. Every text pair meets WCAG 2.2 AA (4.5:1) and every chart or
+ * status color meets 3:1 against the surface it is drawn on, in both themes.
+ */
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --fg: #15181d;
+  --muted: #4b5361;
+  --border: #d8dce2;
+  --border-strong: #6b7280;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --accent-fg: #ffffff;
+  --accent-soft: #e6edfd;
+  --focus: #1d4ed8;
+
+  --c-php: #2563eb;
+  --c-db: #c2410c;
+  --c-http: #0f766e;
+  --c-other: #6d28d9;
+
+  --warn: #a14a06;
+  --warn-soft: #fdf1e1;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --ok: #157f3c;
+
+  --sev-high-bg: #fdecea;
+  --sev-high-fg: #9a1c13;
+  --sev-medium-bg: #fdf1e1;
+  --sev-medium-fg: #8a3b05;
+  --sev-low-bg: #e6edfd;
+  --sev-low-fg: #1e3a8a;
+}
+
+.dark {
+  --bg: #0f1115;
+  --surface: #181b21;
+  --surface-2: #20242c;
+  --fg: #e7e9ee;
+  --muted: #a7aebb;
+  --border: #2f343e;
+  --border-strong: #808897;
+  --accent: #7aa7ff;
+  --accent-hover: #a3c1ff;
+  --accent-fg: #0b1220;
+  --accent-soft: #1b2a4a;
+  --focus: #9dbcff;
+
+  --c-php: #6ea2ff;
+  --c-db: #fb923c;
+  --c-http: #2dd4bf;
+  --c-other: #c4a5ff;
+
+  --warn: #fbbf24;
+  --warn-soft: #3a2c0c;
+  --danger: #ff8a80;
+  --danger-soft: #3d1715;
+  --ok: #4ade80;
+
+  --sev-high-bg: #3d1715;
+  --sev-high-fg: #ffb4ab;
+  --sev-medium-bg: #3a2c0c;
+  --sev-medium-fg: #fcd34d;
+  --sev-low-bg: #1b2a4a;
+  --sev-low-fg: #a8c5ff;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-php: var(--c-php);
+  --color-db: var(--c-db);
+  --color-http: var(--c-http);
+  --color-other: var(--c-other);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-ok: var(--ok);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-lg border border-line bg-surface;
+  }
+  .btn {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-line-strong bg-surface px-3 text-sm font-medium text-fg hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-accent bg-accent px-3 text-sm font-semibold text-accent-fg hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-danger {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-danger bg-surface px-3 text-sm font-semibold text-danger hover:bg-danger-soft;
+  }
+  .field {
+    @apply min-h-10 w-full rounded-md border border-line-strong bg-surface px-3 text-sm text-fg;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-fg;
+  }
+  .link {
+    @apply font-medium text-accent underline-offset-2 hover:underline;
+  }
+  .mono {
+    @apply font-mono text-[0.8125rem];
+  }
+}

@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /app
+    schedule:
+      interval: monthly
+  - package-ecosystem: npm
+    directory: /docs-site
+    schedule:
+      interval: monthly
+  - package-ecosystem: composer
+    directory: /plugin/presstrace
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  # Base images in the Dockerfile and the ClickHouse image in the Compose files, pinned by version and digest.
+  - package-ecosystem: docker
+    directory: /app
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker-compose
+    directory: /app
+    schedule:
+      interval: monthly

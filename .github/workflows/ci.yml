@@ -1,0 +1,139 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # The release workflow runs the same checks before it publishes anything.
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plugin:
+    name: Plugin (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Every PHP version from the "Requires PHP: 7.4" header up to the newest release.
+        php: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+    defaults:
+      run:
+        working-directory: plugin/presstrace
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+          coverage: none
+      - name: Lint PHP files
+        working-directory: .
+        run: find plugin dev -name '*.php' -not -path '*/vendor/*' -print0 | xargs -0 -n1 php -l
+      # composer.lock is resolved for PHP 7.4 (config.platform), so the same versions install on every PHP in the matrix.
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+      - name: Coding standard (WordPress-Extra, PHPCompatibilityWP)
+        if: matrix.php == '8.3'
+        run: composer lint
+
+  app:
+    name: App
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - name: Start test ClickHouse
+        run: docker compose -f docker-compose.test.yml up -d --wait
+      - run: pnpm test:integration
+      - name: Stop test ClickHouse
+        if: always()
+        run: docker compose -f docker-compose.test.yml down
+
+  package:
+    name: Release files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check that all version strings agree
+        run: bash bin/bump-version.sh --check
+      - name: Build the plugin zip
+        run: |
+          zip="$(bash bin/build-plugin.sh)"
+          unzip -l "$zip"
+      - name: Validate the Compose files
+        working-directory: app
+        run: |
+          sed -e "s|^ADMIN_PASSWORD=.*|ADMIN_PASSWORD=$(openssl rand -base64 18)|" \
+              -e "s|^SESSION_SECRET=.*|SESSION_SECRET=$(openssl rand -hex 32)|" \
+              -e "s|^CLICKHOUSE_PASSWORD=.*|CLICKHOUSE_PASSWORD=$(openssl rand -hex 16)|" \
+              -e "s|^PRESSTRACE_VERSION=.*|PRESSTRACE_VERSION=ci|" \
+              .env.example > .env
+          docker compose config --quiet
+          docker compose -f docker-compose.test.yml config --quiet
+      - name: Build the app image
+        working-directory: app
+        run: docker build --pull --tag ghcr.io/onwp/presstrace:ci .
+      - name: Start the stack from the built image and check /healthz
+        working-directory: app
+        run: |
+          docker compose up -d --no-build --wait --wait-timeout 180
+          curl -fsS http://127.0.0.1:8080/healthz
+      - name: Show logs on failure
+        if: failure()
+        working-directory: app
+        run: docker compose logs --no-color
+      - name: Stop the stack
+        if: always()
+        working-directory: app
+        run: docker compose down --volumes
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs-site
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          package_json_file: docs-site/package.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: docs-site/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      # VitePress fails the build on dead internal links.
+      - run: pnpm build

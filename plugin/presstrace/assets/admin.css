@@ -1,0 +1,68 @@
+/* PressTrace settings screen. Native WP admin styles plus a few layout rules. */
+
+.presstrace .presstrace-card {
+	max-width: 960px;
+	box-sizing: border-box;
+}
+
+.presstrace .presstrace-card .form-table {
+	margin-top: 0;
+}
+
+.presstrace-status {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+}
+
+.presstrace-dot {
+	display: inline-block;
+	flex: none;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #8c8f94;
+}
+
+.presstrace-dot--on {
+	background: #00a32a;
+}
+
+.presstrace-dot--paused {
+	background: #dba617;
+}
+
+.presstrace-test-result:empty {
+	display: none;
+}
+
+.presstrace-test-result.is-success {
+	color: #007017;
+}
+
+.presstrace-test-result.is-error {
+	color: #b32d2e;
+}
+
+.presstrace-dropins {
+	margin: 8px 0 12px;
+}
+
+.presstrace-dropins td {
+	overflow-wrap: anywhere;
+}
+
+.presstrace-inline-form {
+	margin: 0 0 8px;
+}
+
+@media screen and (max-width: 782px) {
+	.presstrace .presstrace-card {
+		max-width: none;
+	}
+
+	.presstrace .presstrace-card .regular-text {
+		width: 100%;
+	}
+}

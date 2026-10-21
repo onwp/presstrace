@@ -1,0 +1,71 @@
+name: presstrace
+
+# Defaults fit a 2 GB VPS. See the sizing section of the docs for a larger profile.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.8.31.2@sha256:05d2e46507afdcf08da46e5528b68847104dbbed691c327e505414b4b7f4e4c8
+    restart: unless-stopped
+    environment:
+      CLICKHOUSE_DB: ${CLICKHOUSE_DATABASE:-presstrace}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-presstrace}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:?Set CLICKHOUSE_PASSWORD in .env}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "0"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./clickhouse/config.d/presstrace.xml:/etc/clickhouse-server/config.d/presstrace.xml:ro
+      - ./clickhouse/users.d/presstrace.xml:/etc/clickhouse-server/users.d/presstrace.xml:ro
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    mem_limit: ${CLICKHOUSE_MEM_LIMIT:-1200m}
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+    logging: *logging
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8123/ping || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+
+  app:
+    # `docker compose up -d` pulls this image. `docker compose up -d --build` builds it from the source in this folder.
+    image: ghcr.io/onwp/presstrace:${PRESSTRACE_VERSION:-latest}
+    build: .
+    restart: unless-stopped
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      CLICKHOUSE_URL: http://clickhouse:8123
+      PORT: "8080"
+      APP_BIND: ${APP_BIND:-127.0.0.1}
+      # V8 heap at 75% of the container memory limit, so Node fails a large allocation before the kernel kills it.
+      NODE_OPTIONS: --max-old-space-size-percentage=75
+    ports:
+      # Loopback only by default: put a reverse proxy in front, or set APP_BIND=0.0.0.0 to publish on all interfaces.
+      - "${APP_BIND:-127.0.0.1}:${APP_PORT:-8080}:8080"
+    mem_limit: ${APP_MEM_LIMIT:-384m}
+    # The app runs as the unprivileged node user, writes nothing to disk and needs no Linux capabilities.
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # Time for open requests to finish and buffered rows to reach ClickHouse before Docker kills the app.
+    stop_grace_period: 30s
+    logging: *logging
+
+volumes:
+  clickhouse-data:

@@ -1,0 +1,30 @@
+# Normalize line endings to LF in the repository and in checkouts.
+* text=auto eol=lf
+
+# Binary files.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.zip binary
+*.gz binary
+*.woff binary
+*.woff2 binary
+
+# Better diffs.
+*.php diff=php
+*.md diff=markdown
+
+# Generated files: collapse in diffs.
+pnpm-lock.yaml linguist-generated=true -diff
+composer.lock linguist-generated=true -diff
+*.pot linguist-generated=true
+
+# Keep source archives (git archive, GitHub source downloads) lean.
+/.github export-ignore
+/dev export-ignore
+/docs export-ignore
+/plugin/presstrace/tests export-ignore
+/.gitattributes export-ignore

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+plugin/presstrace/vendor/
+
+# Build output
+dist/
+docs-site/.vitepress/cache/
+docs-site/.vitepress/dist/
+
+# Tests
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.phpunit.result.cache
+.phpunit.cache/
+
+# Local config and secrets
+.env
+.env.*
+!.env.example
+
+# OS and editor files
+.DS_Store
+*.log

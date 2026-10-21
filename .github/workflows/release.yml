@@ -1,0 +1,155 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    name: Tag and version check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check that the tag matches the versions in the code
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          plugin="$(sed -n 's/^[[:space:]]*\*[[:space:]]*Version:[[:space:]]*\([0-9A-Za-z.+-]*\).*/\1/p' plugin/presstrace/presstrace.php | head -n 1)"
+          echo "tag=${TAG#v} plugin=$plugin"
+          [ "${TAG#v}" = "$plugin" ] || { echo "Tag $TAG does not match plugin Version $plugin" >&2; exit 1; }
+          # Every other version string, the CHANGELOG section and the readme.txt changelog entry.
+          bash bin/bump-version.sh --check
+
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  image:
+    name: App image
+    needs: [version, ci]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # Build provenance attestation for the image, pushed to the registry next to it.
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ghcr.io/onwp/presstrace
+          # `latest` moves only on final releases, never on tags such as v0.2.0-rc.1.
+          flavor: latest=false
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=latest,enable=${{ !contains(github.ref_name, '-') }}
+          labels: |
+            org.opencontainers.image.title=PressTrace
+            org.opencontainers.image.description=Self-hosted APM app for WordPress: ingest API and dashboard.
+            org.opencontainers.image.licenses=LicenseRef-PolyForm-Strict-1.0.0
+            org.opencontainers.image.url=https://onwp.github.io/presstrace/
+            org.opencontainers.image.documentation=https://onwp.github.io/presstrace/
+      - id: push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: app
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # Signed SLSA provenance and an SPDX SBOM are attached to the image as attestations.
+          provenance: mode=max
+          sbom: true
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-name: ghcr.io/onwp/presstrace
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  release:
+    name: GitHub release with plugin zip and compose bundle
+    # Runs last, so the release page only appears once the image it points to exists.
+    needs: [version, ci, image]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      # Build provenance attestations for the release files.
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build the plugin zip
+        run: bash bin/build-plugin.sh
+      - name: Build the compose bundle
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          stage="$(mktemp -d)/presstrace-app"
+          mkdir -p "$stage"
+          cp -R app/.env.example app/clickhouse "$stage/"
+          # The bundle has no Dockerfile, so it pulls the published image and never builds.
+          sed -e '/^    build: \.$/d' \
+              -e 's/^    # .docker compose up -d. pulls this image\..*/    # Pulls the published image. This bundle has no Dockerfile to build from./' \
+              app/docker-compose.yml > "$stage/docker-compose.yml"
+          if grep -q '^    build:' "$stage/docker-compose.yml"; then
+            echo "The bundled docker-compose.yml still has a build: key" >&2
+            exit 1
+          fi
+          (cd "$stage" && cp .env.example .env && CLICKHOUSE_PASSWORD=x docker compose config --quiet && rm .env)
+          mkdir -p dist
+          tar -czf "dist/presstrace-app-${TAG#v}.tar.gz" -C "$(dirname "$stage")" presstrace-app
+          tar -tzf "dist/presstrace-app-${TAG#v}.tar.gz"
+      - name: Write SHA-256 checksums
+        working-directory: dist
+        run: sha256sum presstrace-*.zip presstrace-app-*.tar.gz > SHA256SUMS
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: |
+            dist/presstrace-*.zip
+            dist/presstrace-app-*.tar.gz
+      - name: Release notes from CHANGELOG.md
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          awk -v v="$version" '
+            index($0, "## [" v "]") == 1 { found = 1; next }
+            found && /^## \[/ { exit }
+            found && /^\[[^]]+\]: / { exit }
+            found { print }
+          ' CHANGELOG.md > dist/RELEASE_NOTES.md
+          if ! grep -q '[^[:space:]]' dist/RELEASE_NOTES.md; then
+            echo "CHANGELOG.md has no section for $version" >&2
+            exit 1
+          fi
+          cat dist/RELEASE_NOTES.md
+      - uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          body_path: dist/RELEASE_NOTES.md
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: |
+            dist/presstrace-*.zip
+            dist/presstrace-app-*.tar.gz
+            dist/SHA256SUMS
