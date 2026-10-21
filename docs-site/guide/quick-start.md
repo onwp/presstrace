@@ -10,11 +10,11 @@ You need:
 
 ## 1. Start the app
 
-Download `presstrace-app-<version>.tar.gz` from the [latest release](https://github.com/onwp/presstrace/releases), unpack it and create the config file:
+Download `presstrace-app-<version>.tar.gz` from the [latest release](https://github.com/onwp/presstrace-wordpress-apm/releases), unpack it and create the config file:
 
 ```sh
 VERSION=0.1.0   # the version of the latest release
-curl -fsSLO "https://github.com/onwp/presstrace/releases/download/v$VERSION/presstrace-app-$VERSION.tar.gz"
+curl -fsSLO "https://github.com/onwp/presstrace-wordpress-apm/releases/download/v$VERSION/presstrace-app-$VERSION.tar.gz"
 tar -xzf "presstrace-app-$VERSION.tar.gz"
 cd presstrace-app
 cp .env.example .env

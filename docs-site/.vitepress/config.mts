@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 
-// Set DOCS_BASE when the site is served from a sub-path, for example DOCS_BASE=/presstrace/ on GitHub Pages.
+// Set DOCS_BASE when the site is served from a sub-path, for example DOCS_BASE=/presstrace-wordpress-apm/ on GitHub Pages.
 const base = process.env.DOCS_BASE || "/";
 
 export default defineConfig({
@@ -19,7 +19,7 @@ export default defineConfig({
   themeConfig: {
     logo: { src: "/logo.svg", alt: "" },
     search: { provider: "local" },
-    socialLinks: [{ icon: "github", link: "https://github.com/onwp/presstrace" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/onwp/presstrace-wordpress-apm" }],
     outline: { level: [2, 3], label: "On this page" },
     nav: [
       { text: "Guide", link: "/guide/introduction", activeMatch: "^/guide/" },

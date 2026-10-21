@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PressTrace 0.1.0\n"
-"Report-Msgid-Bugs-To: https://github.com/onwp/presstrace/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/onwp/presstrace-wordpress-apm/issues\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: presstrace.php
-msgid "https://github.com/onwp/presstrace"
+msgid "https://github.com/onwp/presstrace-wordpress-apm"
 msgstr ""
 
 #. Description of the plugin

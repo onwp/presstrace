@@ -20,16 +20,16 @@ Nothing is traced until the plugin has an app URL and a site key, monitoring is 
 
 ## Install
 
-1. Download `presstrace-<version>.zip` from the [GitHub releases](https://github.com/onwp/presstrace/releases).
+1. Download `presstrace-<version>.zip` from the [GitHub releases](https://github.com/onwp/presstrace-wordpress-apm/releases).
 2. In WordPress, go to **Plugins > Add New > Upload Plugin**, upload the zip and activate it. With WP-CLI: `wp plugin install presstrace-<version>.zip --activate`.
 3. Add the site in the app and copy its app URL and site key.
 4. Enter them in **Tools > PressTrace**, or set the constants below. Click **Test connection**, then turn on monitoring.
 
 ## Updates
 
-The plugin header sets `Update URI: https://github.com/onwp/presstrace`. WordPress then never offers a WordPress.org plugin with the same slug as an update. PressTrace answers the update check itself: it reads the latest stable release from the GitHub API (cached for 12 hours) and offers its `presstrace-<version>.zip` on the Plugins screen. Prereleases are skipped. Set `PRESSTRACE_DISABLE_UPDATE_CHECK` to `true` to turn the check off and update by hand.
+The plugin header sets `Update URI: https://github.com/onwp/presstrace-wordpress-apm`. WordPress then never offers a WordPress.org plugin with the same slug as an update. PressTrace answers the update check itself: it reads the latest stable release from the GitHub API (cached for 12 hours) and offers its `presstrace-<version>.zip` on the Plugins screen. Prereleases are skipped. Set `PRESSTRACE_DISABLE_UPDATE_CHECK` to `true` to turn the check off and update by hand.
 
-Details: [install and connect](https://onwp.github.io/presstrace/plugin/) and the [settings page](https://onwp.github.io/presstrace/plugin/settings).
+Details: [install and connect](https://onwp.github.io/presstrace-wordpress-apm/plugin/) and the [settings page](https://onwp.github.io/presstrace-wordpress-apm/plugin/settings).
 
 ## wp-config constants
 
@@ -51,7 +51,7 @@ define( 'PRESSTRACE_SAMPLE_RATE', 0.1 );
 define( 'PRESSTRACE_ALWAYS_ON', true );
 ```
 
-See [wp-config constants](https://onwp.github.io/presstrace/plugin/constants).
+See [wp-config constants](https://onwp.github.io/presstrace-wordpress-apm/plugin/constants).
 
 ## Drop-ins and Query Monitor
 
@@ -62,7 +62,7 @@ On activation the plugin writes two files, and removes them on deactivation if t
 
 If another `db.php` is installed, PressTrace leaves it alone and falls back. With Query Monitor it reads query timings through Query Monitor's `log_query_custom_data` filter, so both plugins work together. With other drop-ins, query times come from `SAVEQUERIES` when it is on; otherwise queries are only counted.
 
-Hook callbacks are wrapped in place, so `remove_action()`, `remove_filter()` and `has_filter()` keep working. See [drop-ins and compatibility](https://onwp.github.io/presstrace/plugin/drop-ins).
+Hook callbacks are wrapped in place, so `remove_action()`, `remove_filter()` and `has_filter()` keep working. See [drop-ins and compatibility](https://onwp.github.io/presstrace-wordpress-apm/plugin/drop-ins).
 
 ## Filters
 
@@ -72,11 +72,11 @@ Hook callbacks are wrapped in place, so `remove_action()`, `remove_filter()` and
 | `presstrace_transaction_name( string $name, string $type, array $context )` | Rename a transaction. |
 | `presstrace_payload( array $payload )` | Change the report before it is sent, or return a non-array to drop it. |
 
-Examples are on [filters for developers](https://onwp.github.io/presstrace/plugin/developers).
+Examples are on [filters for developers](https://onwp.github.io/presstrace-wordpress-apm/plugin/developers).
 
 ## Overhead
 
-In the lab, on a page that takes about 60 ms without PressTrace, an untraced request costs about 0 to 3 ms and a traced one about 9 to 12 ms. The report is sent after the response with a 2 second timeout. After a failed send the agent skips sending for 60 seconds, so an app outage does not tie up PHP workers. See [overhead](https://onwp.github.io/presstrace/reference/overhead).
+In the lab, on a page that takes about 60 ms without PressTrace, an untraced request costs about 0 to 3 ms and a traced one about 9 to 12 ms. The report is sent after the response with a 2 second timeout. After a failed send the agent skips sending for 60 seconds, so an app outage does not tie up PHP workers. See [overhead](https://onwp.github.io/presstrace-wordpress-apm/reference/overhead).
 
 ## Development
 
@@ -109,7 +109,7 @@ To build the release zip, run `bin/build-plugin.sh` from the repository root. It
 - Code that reads `WP_Hook::$callbacks` directly sees PressTrace wrapper objects on traced requests. `get_wrapped_callback()` returns the original.
 - Reports are not queued or retried.
 
-See [known limitations](https://onwp.github.io/presstrace/reference/limitations).
+See [known limitations](https://onwp.github.io/presstrace-wordpress-apm/reference/limitations).
 
 ## License
 

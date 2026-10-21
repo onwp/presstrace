@@ -13,17 +13,17 @@ class UpdaterTest extends TestCase {
 		return array_merge(
 			array(
 				'tag_name'   => 'v0.2.0',
-				'html_url'   => 'https://github.com/onwp/presstrace/releases/tag/v0.2.0',
+				'html_url'   => 'https://github.com/onwp/presstrace-wordpress-apm/releases/tag/v0.2.0',
 				'draft'      => false,
 				'prerelease' => false,
 				'assets'     => array(
 					array(
 						'name'                 => 'presstrace-app-0.2.0.tar.gz',
-						'browser_download_url' => 'https://github.com/onwp/presstrace/releases/download/v0.2.0/presstrace-app-0.2.0.tar.gz',
+						'browser_download_url' => 'https://github.com/onwp/presstrace-wordpress-apm/releases/download/v0.2.0/presstrace-app-0.2.0.tar.gz',
 					),
 					array(
 						'name'                 => 'presstrace-0.2.0.zip',
-						'browser_download_url' => 'https://github.com/onwp/presstrace/releases/download/v0.2.0/presstrace-0.2.0.zip',
+						'browser_download_url' => 'https://github.com/onwp/presstrace-wordpress-apm/releases/download/v0.2.0/presstrace-0.2.0.zip',
 					),
 				),
 			),
@@ -34,10 +34,10 @@ class UpdaterTest extends TestCase {
 	public function test_release_with_plugin_zip() {
 		$this->assertSame(
 			array(
-				'id'      => 'https://github.com/onwp/presstrace',
+				'id'      => 'https://github.com/onwp/presstrace-wordpress-apm',
 				'version' => '0.2.0',
-				'url'     => 'https://github.com/onwp/presstrace/releases/tag/v0.2.0',
-				'package' => 'https://github.com/onwp/presstrace/releases/download/v0.2.0/presstrace-0.2.0.zip',
+				'url'     => 'https://github.com/onwp/presstrace-wordpress-apm/releases/tag/v0.2.0',
+				'package' => 'https://github.com/onwp/presstrace-wordpress-apm/releases/download/v0.2.0/presstrace-0.2.0.zip',
 			),
 			PressTrace_Updater::parse_release( $this->release() )
 		);

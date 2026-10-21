@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       PressTrace
- * Plugin URI:        https://github.com/onwp/presstrace
+ * Plugin URI:        https://github.com/onwp/presstrace-wordpress-apm
  * Description:       APM agent for WordPress. Finds slow plugins, hooks, queries, external calls and PHP errors, and sends them to your self-hosted PressTrace app.
  * Version:           0.1.0
  * Requires at least: 6.0
@@ -11,7 +11,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       presstrace
  * Domain Path:       /languages
- * Update URI:        https://github.com/onwp/presstrace
+ * Update URI:        https://github.com/onwp/presstrace-wordpress-apm
  *
  * Copyright (C) 2026 Serhat Aksakal
  *

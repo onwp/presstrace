@@ -71,20 +71,20 @@ Repeated `session_rejected`, `cross_origin_refused` and `bad_site_key` events fr
 
 ## OWASP Top 10 audit
 
-The app was audited against the OWASP Top 10:2025, with test cases taken from the OWASP ASVS 5.0.0 (level 2) and the Web Security Testing Guide. The report lists every test case, the findings with CVSS scores and fixes, the dependency and image scans, and the accepted limitations: [OWASP Top 10 audit](https://github.com/onwp/presstrace/blob/main/docs/security/owasp-top10-audit.md).
+The app was audited against the OWASP Top 10:2025, with test cases taken from the OWASP ASVS 5.0.0 (level 2) and the Web Security Testing Guide. The report lists every test case, the findings with CVSS scores and fixes, the dependency and image scans, and the accepted limitations: [OWASP Top 10 audit](https://github.com/onwp/presstrace-wordpress-apm/blob/main/docs/security/owasp-top10-audit.md).
 
 ## Verify a release
 
 The plugin zip, the app bundle and the image are built on GitHub Actions, and each one has a signed build provenance attestation. Check a download with the [GitHub CLI](https://cli.github.com/):
 
 ```sh
-gh attestation verify presstrace-0.1.0.zip -R onwp/presstrace
-gh attestation verify presstrace-app-0.1.0.tar.gz -R onwp/presstrace
-gh attestation verify oci://ghcr.io/onwp/presstrace:0.1.0 -R onwp/presstrace
+gh attestation verify presstrace-0.1.0.zip -R onwp/presstrace-wordpress-apm
+gh attestation verify presstrace-app-0.1.0.tar.gz -R onwp/presstrace-wordpress-apm
+gh attestation verify oci://ghcr.io/onwp/presstrace:0.1.0 -R onwp/presstrace-wordpress-apm
 ```
 
 Each release also has a `SHA256SUMS` file for the zip and the bundle.
 
 ## Reporting a problem
 
-Report security issues privately through [GitHub private vulnerability reporting](https://github.com/onwp/presstrace/security/advisories/new), not in a public issue. The [security policy](https://github.com/onwp/presstrace/blob/main/SECURITY.md) says what to include.
+Report security issues privately through [GitHub private vulnerability reporting](https://github.com/onwp/presstrace-wordpress-apm/security/advisories/new), not in a public issue. The [security policy](https://github.com/onwp/presstrace-wordpress-apm/blob/main/SECURITY.md) says what to include.

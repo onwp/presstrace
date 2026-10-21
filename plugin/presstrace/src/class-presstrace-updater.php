@@ -2,7 +2,7 @@
 /**
  * Plugin updates from GitHub releases.
  *
- * The plugin header sets "Update URI: https://github.com/onwp/presstrace", so WordPress never matches
+ * The plugin header sets "Update URI: https://github.com/onwp/presstrace-wordpress-apm", so WordPress never matches
  * PressTrace against a WordPress.org plugin with the same slug and instead asks the
  * update_plugins_github.com filter. This class answers that filter with the latest published (non
  * prerelease) GitHub release, when it ships a presstrace-<version>.zip asset.
@@ -19,8 +19,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class PressTrace_Updater {
 
-	const UPDATE_URI  = 'https://github.com/onwp/presstrace';
-	const RELEASE_API = 'https://api.github.com/repos/onwp/presstrace/releases/latest';
+	const UPDATE_URI  = 'https://github.com/onwp/presstrace-wordpress-apm';
+	const RELEASE_API = 'https://api.github.com/repos/onwp/presstrace-wordpress-apm/releases/latest';
 	const CACHE_KEY   = 'presstrace_latest_release';
 	const CACHE_TTL   = 43200; // 12 hours.
 	const ERROR_TTL   = 3600;  // Retry a failed lookup after an hour.
@@ -85,7 +85,7 @@ class PressTrace_Updater {
 				break;
 			}
 		}
-		if ( 0 !== strpos( $package, 'https://github.com/onwp/presstrace/releases/download/' ) ) {
+		if ( 0 !== strpos( $package, 'https://github.com/onwp/presstrace-wordpress-apm/releases/download/' ) ) {
 			return null;
 		}
 

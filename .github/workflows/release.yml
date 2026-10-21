@@ -65,8 +65,8 @@ jobs:
             org.opencontainers.image.title=PressTrace
             org.opencontainers.image.description=Self-hosted APM app for WordPress: ingest API and dashboard.
             org.opencontainers.image.licenses=LicenseRef-PolyForm-Strict-1.0.0
-            org.opencontainers.image.url=https://onwp.github.io/presstrace/
-            org.opencontainers.image.documentation=https://onwp.github.io/presstrace/
+            org.opencontainers.image.url=https://onwp.github.io/presstrace-wordpress-apm/
+            org.opencontainers.image.documentation=https://onwp.github.io/presstrace-wordpress-apm/
       - id: push
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:

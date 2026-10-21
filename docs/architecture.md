@@ -36,7 +36,7 @@ The agent uses `$_SERVER['REQUEST_TIME_FLOAT']` as the request start. It stays d
 
 At shutdown the agent calls `fastcgi_finish_request()` (or `litespeed_finish_request()`) so the visitor gets the page first, then posts the gzipped report to `{app_url}/api/v1/ingest` with the site key as a bearer token. The timeout is 2 seconds, or 0.5 seconds when the response could not be flushed early. Failed reports are dropped, not queued. After a failed send the agent skips sending for 60 seconds, so an app outage does not hold every PHP worker for the full timeout. The plugin never writes trace data to the WordPress database; it stores only its settings there.
 
-The payload format is described in the [payload reference](https://onwp.github.io/presstrace/reference/payload).
+The payload format is described in the [payload reference](https://onwp.github.io/presstrace-wordpress-apm/reference/payload).
 
 ## App
 
@@ -65,7 +65,7 @@ The dashboard has a single admin login, configured with environment variables, a
 
 ### Issue detection
 
-Detection runs at ingest, one transaction at a time. Each match is stored as a row in `issue_events`, never updated. The Issues page groups those rows by fingerprint. The rules cover N+1 and duplicate queries, too many queries, slow queries, `SELECT *` from plugins, slow and failed external calls, slow transactions, slow plugins, PHP errors and high memory use. The thresholds are listed in the [issues reference](https://onwp.github.io/presstrace/issues/).
+Detection runs at ingest, one transaction at a time. Each match is stored as a row in `issue_events`, never updated. The Issues page groups those rows by fingerprint. The rules cover N+1 and duplicate queries, too many queries, slow queries, `SELECT *` from plugins, slow and failed external calls, slow transactions, slow plugins, PHP errors and high memory use. The thresholds are listed in the [issues reference](https://onwp.github.io/presstrace-wordpress-apm/issues/).
 
 ## Design choices
 

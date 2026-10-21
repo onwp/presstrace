@@ -34,7 +34,7 @@ The agent stays dormant, at close to zero cost, unless it is configured, monitor
 
 = License =
 
-This plugin is free software under the GPLv2 or later. The PressTrace app that receives its reports is source-available under the PolyForm Strict License 1.0.0: it is free for personal and noncommercial use, and commercial use needs a separate license. The PressTrace name and logo are trademarks of the author and are not covered by the GPL. See https://onwp.github.io/presstrace/reference/license for details.
+This plugin is free software under the GPLv2 or later. The PressTrace app that receives its reports is source-available under the PolyForm Strict License 1.0.0: it is free for personal and noncommercial use, and commercial use needs a separate license. The PressTrace name and logo are trademarks of the author and are not covered by the GPL. See https://onwp.github.io/presstrace-wordpress-apm/reference/license for details.
 
 = Configuration constants =
 
@@ -49,7 +49,7 @@ For hosting fleets, these constants in `wp-config.php` override the settings scr
 
 = Updates =
 
-PressTrace is not in the WordPress.org directory. The plugin header sets `Update URI: https://github.com/onwp/presstrace`, so WordPress never replaces it with a WordPress.org plugin of the same name. Instead, PressTrace asks the GitHub releases API for the latest stable release about twice a day and offers it on the Plugins screen like any other update. Define `PRESSTRACE_DISABLE_UPDATE_CHECK` as `true` to turn this off and update by hand from https://github.com/onwp/presstrace/releases.
+PressTrace is not in the WordPress.org directory. The plugin header sets `Update URI: https://github.com/onwp/presstrace-wordpress-apm`, so WordPress never replaces it with a WordPress.org plugin of the same name. Instead, PressTrace asks the GitHub releases API for the latest stable release about twice a day and offers it on the Plugins screen like any other update. Define `PRESSTRACE_DISABLE_UPDATE_CHECK` as `true` to turn this off and update by hand from https://github.com/onwp/presstrace-wordpress-apm/releases.
 
 = Filters =
 
@@ -68,7 +68,7 @@ While logged in as an administrator, add `?presstrace_force=1` to any URL to tra
 
 == Installation ==
 
-1. Download `presstrace-<version>.zip` from https://github.com/onwp/presstrace/releases, or build it with `bin/build-plugin.sh` in the repository. Upload it in Plugins > Add New > Upload Plugin, or unzip it into `wp-content/plugins/` (the zip holds a `presstrace` folder).
+1. Download `presstrace-<version>.zip` from https://github.com/onwp/presstrace-wordpress-apm/releases, or build it with `bin/build-plugin.sh` in the repository. Upload it in Plugins > Add New > Upload Plugin, or unzip it into `wp-content/plugins/` (the zip holds a `presstrace` folder).
 2. Activate the plugin.
 3. In your PressTrace app, add the site and copy its app URL and site key. Enter them in Tools > PressTrace and click Test connection. On many sites, set the `PRESSTRACE_APP_URL` and `PRESSTRACE_SITE_KEY` constants in `wp-config.php` instead (see Configuration constants).
 4. Turn on monitoring and choose a window.

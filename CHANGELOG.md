@@ -23,4 +23,4 @@ The app, the dashboard and the docs are source-available under the PolyForm Stri
 - Sign-out revokes the session, and changing `ADMIN_PASSWORD` signs everyone out. Request body limits, a global cap on failed sign-ins, a per-site ingest rate limit, and HSTS when `PUBLIC_URL` uses HTTPS.
 - Documentation site.
 
-[0.1.0]: https://github.com/onwp/presstrace/releases/tag/v0.1.0
+[0.1.0]: https://github.com/onwp/presstrace-wordpress-apm/releases/tag/v0.1.0

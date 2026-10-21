@@ -13,9 +13,9 @@ RUN pnpm run build
 FROM node:24.22.0-alpine3.24@sha256:44fce696f38ba8c987c4db89954051000bbd05ffd8d8659ba15ed4a8602e937f AS runtime
 LABEL org.opencontainers.image.title="PressTrace" \
       org.opencontainers.image.description="Self-hosted APM app for WordPress: ingest API and dashboard." \
-      org.opencontainers.image.source="https://github.com/onwp/presstrace" \
-      org.opencontainers.image.url="https://onwp.github.io/presstrace/" \
-      org.opencontainers.image.documentation="https://onwp.github.io/presstrace/" \
+      org.opencontainers.image.source="https://github.com/onwp/presstrace-wordpress-apm" \
+      org.opencontainers.image.url="https://onwp.github.io/presstrace-wordpress-apm/" \
+      org.opencontainers.image.documentation="https://onwp.github.io/presstrace-wordpress-apm/" \
       org.opencontainers.image.licenses="LicenseRef-PolyForm-Strict-1.0.0"
 # The V8 heap limit follows the container memory limit (75% of it).
 ENV NODE_ENV=production \

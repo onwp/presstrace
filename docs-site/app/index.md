@@ -79,16 +79,16 @@ Sampling lowers both CPU on the WordPress side and disk on the app side. See [sa
 
 ## Install with Docker Compose
 
-1. Get the Compose files. Each [GitHub release](https://github.com/onwp/presstrace/releases) has a `presstrace-app-<version>.tar.gz` with `docker-compose.yml`, `.env.example` and the ClickHouse config:
+1. Get the Compose files. Each [GitHub release](https://github.com/onwp/presstrace-wordpress-apm/releases) has a `presstrace-app-<version>.tar.gz` with `docker-compose.yml`, `.env.example` and the ClickHouse config:
 
    ```sh
    VERSION=0.1.0   # the version of the latest release
-   curl -fsSLO "https://github.com/onwp/presstrace/releases/download/v$VERSION/presstrace-app-$VERSION.tar.gz"
+   curl -fsSLO "https://github.com/onwp/presstrace-wordpress-apm/releases/download/v$VERSION/presstrace-app-$VERSION.tar.gz"
    tar -xzf "presstrace-app-$VERSION.tar.gz"
    cd presstrace-app
    ```
 
-   To check that the file was built by the PressTrace release workflow from this repository, run `gh attestation verify "presstrace-app-$VERSION.tar.gz" -R onwp/presstrace` (needs the [GitHub CLI](https://cli.github.com/)). Each release also has a `SHA256SUMS` file.
+   To check that the file was built by the PressTrace release workflow from this repository, run `gh attestation verify "presstrace-app-$VERSION.tar.gz" -R onwp/presstrace-wordpress-apm` (needs the [GitHub CLI](https://cli.github.com/)). Each release also has a `SHA256SUMS` file.
 
    You can also clone the repository and work in its `app/` folder.
 

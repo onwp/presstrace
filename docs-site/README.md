@@ -1,6 +1,6 @@
 # PressTrace docs site
 
-The source of the [PressTrace documentation](https://onwp.github.io/presstrace/), built with [VitePress](https://vitepress.dev). Back to the [main README](../README.md).
+The source of the [PressTrace documentation](https://onwp.github.io/presstrace-wordpress-apm/), built with [VitePress](https://vitepress.dev). Back to the [main README](../README.md).
 
 ## Run, build, preview
 
@@ -16,7 +16,7 @@ pnpm preview   # serve the built site
 The site is served from `/` by default. When it lives under a sub-path, set `DOCS_BASE`, which is what the GitHub Pages build does:
 
 ```sh
-DOCS_BASE=/presstrace/ pnpm build
+DOCS_BASE=/presstrace-wordpress-apm/ pnpm build
 ```
 
 ## Layout
@@ -40,7 +40,7 @@ Settings come from environment variables. `PT_PASSWORD` (the dashboard password)
 
 ## Deploy
 
-[`.github/workflows/docs.yml`](../.github/workflows/docs.yml) builds the site with `DOCS_BASE=/presstrace/` and publishes it to GitHub Pages on every push to `main` that touches `docs-site/`. You can also start it by hand from the Actions tab.
+[`.github/workflows/docs.yml`](../.github/workflows/docs.yml) builds the site with `DOCS_BASE=/presstrace-wordpress-apm/` and publishes it to GitHub Pages on every push to `main` that touches `docs-site/`. You can also start it by hand from the Actions tab.
 
 ## Writing guidelines
 

@@ -6,8 +6,8 @@ PressTrace is source-available. You can read all of its code, but it is not open
 
 | Part | License |
 |---|---|
-| The app, the dashboard, the docs, the scripts and the rest of the repository | [PolyForm Strict License 1.0.0](https://github.com/onwp/presstrace/blob/main/LICENSE) |
-| The WordPress plugin in `plugin/presstrace/` and the development plugin in `dev/lab-scenarios/` | [GPL-2.0-or-later](https://github.com/onwp/presstrace/blob/main/plugin/presstrace/LICENSE) |
+| The app, the dashboard, the docs, the scripts and the rest of the repository | [PolyForm Strict License 1.0.0](https://github.com/onwp/presstrace-wordpress-apm/blob/main/LICENSE) |
+| The WordPress plugin in `plugin/presstrace/` and the development plugin in `dev/lab-scenarios/` | [GPL-2.0-or-later](https://github.com/onwp/presstrace-wordpress-apm/blob/main/plugin/presstrace/LICENSE) |
 
 The plugins run inside WordPress, which is GPL software, so they are GPL as well. The plugin zip contains its own `LICENSE` file.
 
@@ -23,7 +23,7 @@ You may not:
 - white-label or rebrand it
 - make changes to it or build new works on it
 
-The full text is in the [LICENSE](https://github.com/onwp/presstrace/blob/main/LICENSE) file.
+The full text is in the [LICENSE](https://github.com/onwp/presstrace-wordpress-apm/blob/main/LICENSE) file.
 
 ## Commercial license
 
@@ -31,11 +31,11 @@ Commercial use, including use inside a company, needs a separate license. To ask
 
 ## Trademarks
 
-The PressTrace name and logo are reserved by the author. You may not use them for forks, rebranded or white-labeled versions, hosted services or products, and that includes forks of the GPL plugin. You may say that something works with PressTrace. See [TRADEMARKS.md](https://github.com/onwp/presstrace/blob/main/TRADEMARKS.md).
+The PressTrace name and logo are reserved by the author. You may not use them for forks, rebranded or white-labeled versions, hosted services or products, and that includes forks of the GPL plugin. You may say that something works with PressTrace. See [TRADEMARKS.md](https://github.com/onwp/presstrace-wordpress-apm/blob/main/TRADEMARKS.md).
 
 ## Contributions
 
-Contributions are welcome under the terms in [CONTRIBUTING.md](https://github.com/onwp/presstrace/blob/main/CONTRIBUTING.md#license-of-contributions). In short, you let the maintainer use and relicense your contribution under any license, and plugin contributions are also GPL-2.0-or-later.
+Contributions are welcome under the terms in [CONTRIBUTING.md](https://github.com/onwp/presstrace-wordpress-apm/blob/main/CONTRIBUTING.md#license-of-contributions). In short, you let the maintainer use and relicense your contribution under any license, and plugin contributions are also GPL-2.0-or-later.
 
 ## Third-party software
 

@@ -2,7 +2,7 @@
 
 ## Upgrading
 
-1. If you pinned `PRESSTRACE_VERSION` in `.env`, set it to the new version. Check the [release notes](https://github.com/onwp/presstrace/releases) for changes to `docker-compose.yml`, and copy the new file over if it changed.
+1. If you pinned `PRESSTRACE_VERSION` in `.env`, set it to the new version. Check the [release notes](https://github.com/onwp/presstrace-wordpress-apm/releases) for changes to `docker-compose.yml`, and copy the new file over if it changed.
 2. Pull the new image and restart:
 
    ```sh

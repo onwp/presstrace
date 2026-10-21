@@ -22,4 +22,4 @@ Activate it in a test site such as the ddev lab from [CONTRIBUTING.md](../../CON
 | `select_star` | `SELECT * FROM wp_posts LIMIT 20`. | SELECT * query |
 | `memory` | Raises peak memory to about 85% of a 256 MB limit. | High memory usage |
 
-To make sure the request is traced, turn monitoring on with a sample rate of 1, or add `&presstrace_force=1` while logged in as an administrator. More in [development](https://onwp.github.io/presstrace/reference/development#lab-scenarios).
+To make sure the request is traced, turn monitoring on with a sample rate of 1, or add `&presstrace_force=1` while logged in as an administrator. More in [development](https://onwp.github.io/presstrace-wordpress-apm/reference/development#lab-scenarios).

@@ -1,6 +1,6 @@
 # Engineering notes
 
-Notes for people working on PressTrace itself. The user documentation lives in [`docs-site/`](../docs-site/README.md) and is published at https://onwp.github.io/presstrace/.
+Notes for people working on PressTrace itself. The user documentation lives in [`docs-site/`](../docs-site/README.md) and is published at https://onwp.github.io/presstrace-wordpress-apm/.
 
 | File | What it is |
 |---|---|

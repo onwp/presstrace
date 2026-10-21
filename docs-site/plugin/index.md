@@ -4,7 +4,7 @@ The plugin is the PressTrace agent. It needs PHP 7.4 or newer and WordPress 6.0 
 
 ## Get the zip
 
-The plugin is not in the WordPress.org directory. Download `presstrace-<version>.zip` from the [GitHub releases](https://github.com/onwp/presstrace/releases), for example `presstrace-0.1.0.zip`.
+The plugin is not in the WordPress.org directory. Download `presstrace-<version>.zip` from the [GitHub releases](https://github.com/onwp/presstrace-wordpress-apm/releases), for example `presstrace-0.1.0.zip`.
 
 To build it from source instead, run this from the root of a clone:
 
@@ -53,7 +53,7 @@ Then switch monitoring on, either on the settings page or with `PRESSTRACE_ALWAY
 
 ## Upgrading the plugin
 
-WordPress shows PressTrace updates on the **Plugins** page and under **Dashboard > Updates**, like any other plugin. The plugin header sets `Update URI: https://github.com/onwp/presstrace`, so WordPress never offers a WordPress.org plugin with the same slug in its place. PressTrace looks up the latest stable GitHub release (prereleases are skipped) and offers its `presstrace-<version>.zip`. The answer is cached for 12 hours, and a failed lookup is retried after an hour. To turn the check off, set `PRESSTRACE_DISABLE_UPDATE_CHECK` to `true` in `wp-config.php` (see [constants](/plugin/constants)).
+WordPress shows PressTrace updates on the **Plugins** page and under **Dashboard > Updates**, like any other plugin. The plugin header sets `Update URI: https://github.com/onwp/presstrace-wordpress-apm`, so WordPress never offers a WordPress.org plugin with the same slug in its place. PressTrace looks up the latest stable GitHub release (prereleases are skipped) and offers its `presstrace-<version>.zip`. The answer is cached for 12 hours, and a failed lookup is retried after an hour. To turn the check off, set `PRESSTRACE_DISABLE_UPDATE_CHECK` to `true` in `wp-config.php` (see [constants](/plugin/constants)).
 
 To update by hand, download the new zip (or build it) and upload it again with **Plugins > Add New > Upload Plugin**. WordPress asks whether to replace the installed version. Your settings are kept.
 

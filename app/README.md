@@ -21,13 +21,13 @@ docker compose up -d --build   # build the image from the source in this folder
 
 Open `PUBLIC_URL` (by default http://localhost:8080; Compose publishes the port on `127.0.0.1` only unless you set `APP_BIND`) and sign in with `ADMIN_EMAIL` and `ADMIN_PASSWORD`. `GET /healthz` answers `200` when the app can reach ClickHouse.
 
-If you do not want to clone the repository, each [release](https://github.com/onwp/presstrace/releases) has a `presstrace-app-<version>.tar.gz` with `docker-compose.yml`, `.env.example` and the ClickHouse config. Unpack it and run `docker compose up -d`.
+If you do not want to clone the repository, each [release](https://github.com/onwp/presstrace-wordpress-apm/releases) has a `presstrace-app-<version>.tar.gz` with `docker-compose.yml`, `.env.example` and the ClickHouse config. Unpack it and run `docker compose up -d`.
 
-More on running it: [install the app](https://onwp.github.io/presstrace/app/), [HTTPS with a reverse proxy](https://onwp.github.io/presstrace/app/https), [upgrades, backups and retention](https://onwp.github.io/presstrace/app/operations) and [troubleshooting](https://onwp.github.io/presstrace/app/troubleshooting).
+More on running it: [install the app](https://onwp.github.io/presstrace-wordpress-apm/app/), [HTTPS with a reverse proxy](https://onwp.github.io/presstrace-wordpress-apm/app/https), [upgrades, backups and retention](https://onwp.github.io/presstrace-wordpress-apm/app/operations) and [troubleshooting](https://onwp.github.io/presstrace-wordpress-apm/app/troubleshooting).
 
 ## Environment variables
 
-Set these in `.env`. The full list with validation rules is on [environment variables](https://onwp.github.io/presstrace/app/configuration).
+Set these in `.env`. The full list with validation rules is on [environment variables](https://onwp.github.io/presstrace-wordpress-apm/app/configuration).
 
 | Variable | Default | Required | What it does |
 |---|---|---|---|
@@ -72,7 +72,7 @@ E2E_BASE_URL=http://localhost:8080 E2E_ADMIN_EMAIL=admin@example.com E2E_ADMIN_P
 
 The integration tests create a new database on each run. `CLICKHOUSE_TEST_URL`, `CLICKHOUSE_TEST_USER` and `CLICKHOUSE_TEST_PASSWORD` override the defaults. The end-to-end tests drive a running app with Playwright and run an axe accessibility check on every page. Set `E2E_SCREENSHOT_DIR` to keep their screenshots.
 
-See [development](https://onwp.github.io/presstrace/reference/development) for running the app against the ddev lab.
+See [development](https://onwp.github.io/presstrace-wordpress-apm/reference/development) for running the app against the ddev lab.
 
 ## Project structure
 
@@ -89,4 +89,4 @@ See [development](https://onwp.github.io/presstrace/reference/development) for r
 
 ## API
 
-The plugin talks to `POST /api/v1/ingest` and `GET /api/v1/ping` with its site key. The dashboard uses session-authenticated JSON endpoints under `/api/`. Both are listed on [API endpoints](https://onwp.github.io/presstrace/reference/api), and the report format is on [payload format](https://onwp.github.io/presstrace/reference/payload).
+The plugin talks to `POST /api/v1/ingest` and `GET /api/v1/ping` with its site key. The dashboard uses session-authenticated JSON endpoints under `/api/`. Both are listed on [API endpoints](https://onwp.github.io/presstrace-wordpress-apm/reference/api), and the report format is on [payload format](https://onwp.github.io/presstrace-wordpress-apm/reference/payload).
