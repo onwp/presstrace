@@ -9,7 +9,7 @@ x-logging: &logging
 
 services:
   clickhouse:
-    image: clickhouse/clickhouse-server:26.8.31.2@sha256:05d2e46507afdcf08da46e5528b68847104dbbed691c327e505414b4b7f4e4c8
+    image: clickhouse/clickhouse-server:26.9.19.9@sha256:bdb5c911a23d92fd364e246ab20b5a0a485f00112f3663fa626b083fb46c146b
     restart: unless-stopped
     environment:
       CLICKHOUSE_DB: ${CLICKHOUSE_DATABASE:-presstrace}
